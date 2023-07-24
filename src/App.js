@@ -1,25 +1,82 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+import {nanoid} from 'nanoid';
+import PropTypes from 'prop-types';
+
+import WatchList from './components/WatchList/WatchList';
+import WatchForm from './components/WatchForm/WatchForm';
+// import initialState from './model/initialState';
 import './App.css';
 
+
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+	const [toWatchMovies, setToWatchMovies] = useState([]);
+
+	function saveToStorage(movies){
+		localStorage.setItem('movies', JSON.stringify(movies));
+	}
+
+	useEffect(() => {
+		setToWatchMovies(restoreMovies);
+	}, []);
+
+
+	function restoreMovies(){
+		const data = localStorage.getItem('movies');
+		return data ? JSON.parse(data) : [];
+	}
+	function toggleToWatch(id) {
+		const newWatchMovies = toWatchMovies.map((movie) => {
+			return movie.id !== id
+				? movie
+				: { ...movie, isDone: !movie.isDone };
+		});
+		setToWatchMovies(newWatchMovies);
+		saveToStorage(newWatchMovies);
+	}
+
+	function deleteMovie(id){
+		const newWatchMovies = toWatchMovies.filter(movie => movie.id !== id);
+		setToWatchMovies(newWatchMovies);
+		saveToStorage(newWatchMovies);
+	}
+
+	function addNewMovie(movie) {
+		movie.id = nanoid(12);
+		const newWatchMovies = [...toWatchMovies, movie];
+		setToWatchMovies(newWatchMovies);
+		saveToStorage(newWatchMovies);
+	}
+
+	return (
+		<div className='container'>
+			<WatchList
+				movies={toWatchMovies}
+				onToggle={toggleToWatch}
+				onDelete={deleteMovie}
+			/>
+			<WatchForm onSubmit={addNewMovie} />
+		</div>
+	);
 }
+
+App.propTypes = {
+  toWatchMovies: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      isDone: PropTypes.bool.isRequired,
+    })
+  ),
+  saveToStorage: PropTypes.func.isRequired,
+  restoreMovies: PropTypes.func.isRequired,
+  toggleToWatch: PropTypes.func.isRequired,
+  deleteMovie: PropTypes.func.isRequired,
+  addNewMovie: PropTypes.func.isRequired,
+};
+
+App.defaultProps = {
+  toWatchMovies: [],
+};
 
 export default App;
