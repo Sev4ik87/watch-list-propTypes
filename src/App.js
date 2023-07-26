@@ -68,11 +68,11 @@ App.propTypes = {
       isDone: PropTypes.bool.isRequired,
     })
   ).isRequired,
-  saveToStorage: PropTypes.func.isRequired,
-  restoreMovies: PropTypes.func.isRequired,
-  toggleToWatch: PropTypes.func.isRequired,
-  deleteMovie: PropTypes.func.isRequired,
-  addNewMovie: PropTypes.func.isRequired,
+  saveToStorage: PropTypes.func,
+  restoreMovies: PropTypes.func,
+  toggleToWatch: PropTypes.func,
+  deleteMovie: PropTypes.func,
+  addNewMovie: PropTypes.func,
 };
 
 App.defaultProps = {

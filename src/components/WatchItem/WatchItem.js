@@ -42,7 +42,7 @@ function WatchItem({ movie, onToggle, onDelete }) {
 
 WatchItem.propTypes = {
 onToggle: PropTypes.func.isRequired,
-onDelete: PropTypes.func.isRequired,
+onDelete: PropTypes.func,
 
 };
 
