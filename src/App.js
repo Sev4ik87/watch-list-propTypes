@@ -67,7 +67,7 @@ App.propTypes = {
       title: PropTypes.string.isRequired,
       isDone: PropTypes.bool.isRequired,
     })
-  ),
+  ).isRequired,
   saveToStorage: PropTypes.func.isRequired,
   restoreMovies: PropTypes.func.isRequired,
   toggleToWatch: PropTypes.func.isRequired,

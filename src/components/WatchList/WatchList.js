@@ -19,6 +19,18 @@ function WatchList({ movies, onToggle, onDelete }) {
 	);
 }
 
+WatchList.propTypes = {
+  movies: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      director: PropTypes.string.isRequired,
+      isDone: PropTypes.bool.isRequired,
+    })
+  ).isRequired,
+  onToggle: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
+};
 
 
 export default WatchList;
